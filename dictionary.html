@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Document</title>
+</head>
+<style>
+    .main_container{
+        width: 50%;
+        border: 1px solid;
+        margin: 0 auto;
+    }
+    .text1{
+        font-size: 34px;
+        font-family: sans-serif;
+        font-weight: bold;
+    }
+</style>
+<body>
+    <body>
+        <input type="text" id="word">
+        <button id="btn">Search</button>
+        <div class="load">
+
+        </div>
+        <div id="inner-container">
+
+            </div>
+
+        </div>
+        <div id="container">
+            <i class="fa fa-cog fa-spin fa-3x" aria-hidden="true"
+            aria-hidden="true"></i>
+            </div>
+        <script>
+            window.addEventListener('load',()=>{
+            let cont = document.querySelector('#container');
+            cont.setAttribute('style','display:none')
+        })            
+
+            let inputWord = document.getElementById('word');
+            let btn = document.getElementById('btn');
+            let load = document.querySelector('.load');
+
+            btn.addEventListener('click', async ()=>{
+                
+                load.innerHTML = `<i class="fa fa-cog fa-spin fa-3x" aria-hidden="true"
+                aria-hidden="true"></i>`;
+
+                
+                try{
+                let res = await fetch(`https://api.api-ninjas.com/v1/dictionary?word=${inputWord.value}`,{
+                headers :{
+                    'content-type' : 'application/json',
+                    'X-api-key': 'dy63QgCCsEFoEH0YUKYnug==YquYwGAax5e8Hd7F'
+                }
+                })
+                let result = await res.json()
+                .then(data =>{
+                   
+                   const {definition,word} = data
+                   console.log(data);
+
+                  
+                    let text = document.getElementById('inner-container');
+                    text.innerHTML = `
+                      <div class="main_container">
+                <div class="second-div">
+                    <span class="text1">${word}</span>
+                    <p><span>${definition}</span></p>
+                </div>
+                                
+                    `
+                })     
+            }
+            catch (error) {
+                console.log(error.message)
+                
+            } finally{
+               load.innerHTML = 'Data Fetched'              
+            }
+        });
+</script>
+    
+</body>
+</html>
